@@ -6,6 +6,7 @@
 <title>Drohnen-Kalender</title>
 <style>
   :root {
+    color-scheme: light;
     --mavic-bg: #E6F1FB; --mavic-fg: #0C447C; --mavic-dot: #378ADD;
     --matrice-bg: #E1F5EE; --matrice-fg: #085041; --matrice-dot: #1D9E75;
     --matrice2-bg: #FAECE7; --matrice2-fg: #712B13; --matrice2-dot: #D85A30;
@@ -14,94 +15,118 @@
     --text: #1a1a18; --text-muted: #6b6b67; --text-faint: #9b9b96;
     --blue: #185FA5; --radius: 8px; --radius-lg: 12px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --mavic-bg: #0C447C; --mavic-fg: #B5D4F4; --mavic-dot: #378ADD;
-      --matrice-bg: #085041; --matrice-fg: #9FE1CB; --matrice-dot: #1D9E75;
-      --matrice2-bg: #712B13; --matrice2-fg: #F5C4B3; --matrice2-dot: #D85A30;
-      --bg: #111110; --surface: #1c1c1a;
-      --border: rgba(255,255,255,0.1); --border-strong: rgba(255,255,255,0.2);
-      --text: #e8e8e4; --text-muted: #9b9b96; --text-faint: #6b6b67;
-      --blue: #85B7EB;
-    }
-  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px 16px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding: 16px 12px;
+  }
   .app { max-width: 720px; margin: 0 auto; }
-  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
-  .status { font-size: 12px; color: var(--text-faint); margin-top: 2px; }
-  .status.ok { color: #1D9E75; }
-  .status.err { color: #D85A30; }
-  .legend { display: flex; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
-  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
-  .leg-dot { width: 9px; height: 9px; border-radius: 50%; }
-  .nav { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  .nav button { background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: var(--radius); padding: 6px 12px; font-size: 13px; cursor: pointer; color: var(--text); transition: background .15s; }
-  .nav button:hover { background: var(--border); }
-  .week-label { flex: 1; text-align: center; font-size: 14px; font-weight: 500; }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-  .day-head { font-size: 11px; color: var(--text-faint); text-align: center; padding: 4px 0 6px; font-weight: 500; letter-spacing: 0.3px; }
-  .day-cell { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 7px 6px; min-height: 76px; cursor: pointer; transition: border-color .15s, background .15s; }
-  .day-cell:hover { border-color: var(--border-strong); background: var(--bg); }
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+  .status { font-size: 11px; color: var(--text-faint); margin-top: 1px; }
+  .status.ok { color: #1D9E75; } .status.err { color: #D85A30; }
+  .legend { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .nav { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .nav button {
+    background: var(--surface); border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius); padding: 5px 10px; font-size: 13px;
+    cursor: pointer; color: var(--text);
+  }
+  .week-label { flex: 1; text-align: center; font-size: 13px; font-weight: 500; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .day-head {
+    font-size: 10px; color: var(--text-faint); text-align: center;
+    padding: 3px 0 5px; font-weight: 500; letter-spacing: 0.2px;
+  }
+  .day-cell {
+    background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: 6px; padding: 5px 4px;
+    min-height: 0;
+    cursor: pointer; transition: border-color .15s;
+  }
+  .day-cell:hover { border-color: var(--border-strong); }
   .day-cell.today { border-color: var(--blue); }
-  .day-cell.past { opacity: 0.5; }
-  .dnum { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 5px; }
+  .day-cell.past { opacity: 0.45; }
+  .dnum { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 3px; }
   .today .dnum { color: var(--blue); }
-  .booking { border-radius: 5px; padding: 2px 5px; font-size: 10px; font-weight: 500; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; display: flex; align-items: center; gap: 3px; }
-  .booking:hover { opacity: 0.8; }
-  .booking-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+  .booking {
+    border-radius: 4px; padding: 2px 4px; font-size: 9px; font-weight: 600;
+    margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer; display: flex; align-items: center; gap: 2px; line-height: 1.3;
+  }
+  .booking:active { opacity: 0.7; }
+  .booking-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Modal */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: flex-end; justify-content: center; padding: 0; }
   .overlay.open { display: flex; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); border: 0.5px solid var(--border-strong); padding: 22px; width: 100%; max-width: 300px; }
+  .modal {
+    background: var(--surface); border-radius: 16px 16px 0 0;
+    border-top: 0.5px solid var(--border-strong);
+    padding: 20px 20px 32px; width: 100%; max-width: 480px;
+  }
+  .modal-handle { width: 36px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 0 auto 16px; }
   .modal h2 { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
   .field { margin-bottom: 12px; }
   .field label { display: block; font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
-  .field select, .field input { width: 100%; padding: 8px 10px; font-size: 13px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--bg); color: var(--text); outline: none; transition: border-color .15s; }
-  .field select:focus, .field input:focus { border-color: var(--blue); }
-  .preview { border-radius: var(--radius); padding: 8px 10px; font-size: 13px; font-weight: 500; min-height: 36px; display: flex; align-items: center; gap: 6px; background: var(--bg); color: var(--text-faint); border: 0.5px solid var(--border); margin-bottom: 16px; transition: background .2s, color .2s; }
-  .preview-dot { width: 8px; height: 8px; border-radius: 50%; display: none; }
+  .field select, .field input {
+    width: 100%; padding: 10px 12px; font-size: 15px;
+    border: 0.5px solid var(--border-strong); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); outline: none;
+    -webkit-appearance: none; appearance: none;
+  }
+  .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b67' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+  .preview {
+    border-radius: var(--radius); padding: 10px 12px; font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg); color: var(--text-faint);
+    border: 0.5px solid var(--border); margin-bottom: 14px;
+    min-height: 40px;
+  }
+  .preview-dot { width: 8px; height: 8px; border-radius: 50%; display: none; flex-shrink: 0; }
   .btn-row { display: flex; gap: 8px; }
-  .btn { flex: 1; padding: 8px; font-size: 13px; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-strong); background: none; color: var(--text); font-weight: 500; transition: background .15s; }
-  .btn:hover { background: var(--border); }
+  .btn { flex: 1; padding: 12px; font-size: 15px; border-radius: var(--radius); cursor: pointer; border: 0.5px solid var(--border-strong); background: none; color: var(--text); font-weight: 500; }
   .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-  .del-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 16px; }
-  .del-overlay.open { display: flex; }
-  .del-modal { background: var(--surface); border-radius: var(--radius-lg); border: 0.5px solid var(--border-strong); padding: 20px; max-width: 260px; width: 100%; }
-  .del-modal p { font-size: 14px; margin-bottom: 14px; color: var(--text); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
   .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; display: none; animation: spin .6s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Delete modal */
+  .del-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; align-items: flex-end; justify-content: center; }
+  .del-overlay.open { display: flex; }
+  .del-modal { background: var(--surface); border-radius: 16px 16px 0 0; border-top: 0.5px solid var(--border-strong); padding: 20px 20px 32px; width: 100%; max-width: 480px; }
+  .del-modal p { font-size: 14px; margin-bottom: 14px; color: var(--text); font-weight: 500; }
 </style>
 </head>
 <body>
-
-<div id="main-app">
-  <div class="app">
-    <header>
-      <div>
-        <h1>Drohnen-Kalender</h1>
-        <div class="status" id="conn-status">Verbinde...</div>
-      </div>
-    </header>
-    <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:var(--mavic-dot)"></div>Mavic 3T</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--matrice-dot)"></div>Matrice 4T</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--matrice2-dot)"></div>Matrice 4T Nr.2</div>
+<div class="app">
+  <header>
+    <div>
+      <h1>Drohnen-Kalender</h1>
+      <div class="status" id="conn-status">Verbinde...</div>
     </div>
-    <div class="nav">
-      <button onclick="changeWeek(-1)">&#8592;</button>
-      <span class="week-label" id="week-label"></span>
-      <button onclick="changeWeek(1)">&#8594;</button>
-    </div>
-    <div class="cal-grid" id="cal"></div>
+  </header>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:var(--mavic-dot)"></div>Mavic 3T</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--matrice-dot)"></div>Matrice 4T</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--matrice2-dot)"></div>Matrice 4T Nr.2</div>
   </div>
+  <div class="nav">
+    <button onclick="changeWeek(-1)">&#8592;</button>
+    <span class="week-label" id="week-label"></span>
+    <button onclick="changeWeek(1)">&#8594;</button>
+  </div>
+  <div class="cal-grid" id="cal"></div>
 </div>
 
+<!-- Booking modal (bottom sheet) -->
 <div class="overlay" id="modal">
   <div class="modal">
-    <h2 id="modal-title">Buchung eintragen</h2>
+    <div class="modal-handle"></div>
+    <h2 id="modal-title"></h2>
     <div class="field">
       <label>Drohne</label>
       <select id="drone-sel" onchange="updatePreview()">
@@ -113,7 +138,7 @@
     </div>
     <div class="field">
       <label>Kürzel</label>
-      <input type="text" id="kuerzel" placeholder="z.B. JK oder Baustelle" maxlength="16" oninput="updatePreview()">
+      <input type="text" id="kuerzel" maxlength="16" oninput="updatePreview()">
     </div>
     <div class="preview" id="preview">
       <div class="preview-dot" id="preview-dot"></div>
@@ -129,9 +154,11 @@
   </div>
 </div>
 
+<!-- Delete modal (bottom sheet) -->
 <div class="del-overlay" id="del-modal">
   <div class="del-modal">
-    <p id="del-text">Buchung löschen?</p>
+    <div class="modal-handle"></div>
+    <p id="del-text"></p>
     <div class="btn-row">
       <button class="btn" onclick="closeDel()">Abbrechen</button>
       <button class="btn" style="background:#D85A30;color:#fff;border-color:#D85A30" onclick="confirmDelete()">Löschen</button>
@@ -144,9 +171,9 @@ const SUPABASE_URL = 'https://pquibqnvhkfdaklccbjc.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_AntSEndT1JjZ1ZTCOoj5ng_5AJ98sWl';
 
 const DRONES = {
-  mavic:    { label: 'Mavic 3T',        bg: 'var(--mavic-bg)',    fg: 'var(--mavic-fg)',    dot: 'var(--mavic-dot)'    },
-  matrice:  { label: 'Matrice 4T',      bg: 'var(--matrice-bg)',  fg: 'var(--matrice-fg)',  dot: 'var(--matrice-dot)'  },
-  matrice2: { label: 'Matrice 4T Nr.2', bg: 'var(--matrice2-bg)', fg: 'var(--matrice2-fg)', dot: 'var(--matrice2-dot)' },
+  mavic:    { label: 'Mavic 3T',        short: 'Mavic',   bg: 'var(--mavic-bg)',    fg: 'var(--mavic-fg)',    dot: 'var(--mavic-dot)'    },
+  matrice:  { label: 'Matrice 4T',      short: 'M4T',     bg: 'var(--matrice-bg)',  fg: 'var(--matrice-fg)',  dot: 'var(--matrice-dot)'  },
+  matrice2: { label: 'Matrice 4T Nr.2', short: 'M4T-2',   bg: 'var(--matrice2-bg)', fg: 'var(--matrice2-fg)', dot: 'var(--matrice2-dot)' },
 };
 
 let weekOffset = 0, selectedDate = null, bookings = {}, deleteId = null;
@@ -154,65 +181,51 @@ let weekOffset = 0, selectedDate = null, bookings = {}, deleteId = null;
 async function sbFetch(path, opts = {}) {
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
     ...opts,
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation',
-      ...(opts.headers || {})
-    }
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation', ...(opts.headers||{}) }
   });
   if (!res.ok) throw new Error(await res.text());
-  const text = await res.text();
-  return text ? JSON.parse(text) : [];
+  const t = await res.text(); return t ? JSON.parse(t) : [];
 }
 
 async function loadBookings() {
-  const monday = getMonday(new Date());
-  monday.setDate(monday.getDate() + weekOffset * 7);
-  const end = new Date(monday); end.setDate(end.getDate() + 6);
-  const rows = await sbFetch(`bookings?date=gte.${dateKey(monday)}&date=lte.${dateKey(end)}&order=created_at`);
+  const mon = getMonday(new Date()); mon.setDate(mon.getDate() + weekOffset * 7);
+  const end = new Date(mon); end.setDate(end.getDate() + 6);
+  const rows = await sbFetch(`bookings?date=gte.${dateKey(mon)}&date=lte.${dateKey(end)}&order=created_at`);
   bookings = {};
   rows.forEach(r => { if (!bookings[r.date]) bookings[r.date] = []; bookings[r.date].push(r); });
 }
 
-function getMonday(d) {
-  const d2 = new Date(d); const day = d2.getDay() || 7;
-  d2.setDate(d2.getDate() - day + 1); d2.setHours(0,0,0,0); return d2;
-}
-function dateKey(d) { return d.toISOString().slice(0, 10); }
-function fmt(d) { return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }); }
+function getMonday(d) { const d2=new Date(d),day=d2.getDay()||7; d2.setDate(d2.getDate()-day+1); d2.setHours(0,0,0,0); return d2; }
+function dateKey(d) { return d.toISOString().slice(0,10); }
+function fmt(d) { return d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'}); }
 
 async function changeWeek(n) { weekOffset += n; await refreshCal(); }
 
 async function refreshCal() {
-  document.getElementById('cal').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;font-size:13px;color:var(--text-faint)">Lädt...</div>';
-  try { await loadBookings(); setStatus('ok', 'Verbunden'); }
-  catch(e) { setStatus('err', 'Verbindungsfehler'); }
+  document.getElementById('cal').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:16px;font-size:12px;color:var(--text-faint)">Lädt...</div>';
+  try { await loadBookings(); setStatus('ok','Verbunden'); }
+  catch(e) { setStatus('err','Verbindungsfehler'); }
   renderCal();
 }
 
-function setStatus(type, msg) {
-  const el = document.getElementById('conn-status');
-  el.textContent = msg; el.className = 'status ' + type;
-}
+function setStatus(t,m) { const el=document.getElementById('conn-status'); el.textContent=m; el.className='status '+t; }
 
 function renderCal() {
   const today = new Date(); today.setHours(0,0,0,0);
   const base = getMonday(today); base.setDate(base.getDate() + weekOffset * 7);
-  const end = new Date(base); end.setDate(end.getDate() + 6);
+  const end = new Date(base); end.setDate(end.getDate()+6);
   document.getElementById('week-label').textContent = fmt(base) + ' – ' + fmt(end);
   const days = ['Mo','Di','Mi','Do','Fr','Sa','So'];
-  let html = days.map(d => `<div class="day-head">${d}</div>`).join('');
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(base); d.setDate(d.getDate() + i);
+  let html = days.map(d=>`<div class="day-head">${d}</div>`).join('');
+  for (let i=0; i<7; i++) {
+    const d = new Date(base); d.setDate(d.getDate()+i);
     const key = dateKey(d);
-    const isToday = d.getTime() === today.getTime();
+    const isToday = d.getTime()===today.getTime();
     const isPast = d < today;
-    const label = d.toLocaleDateString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit' });
-    const entries = (bookings[key] || []).map(b => {
+    const label = d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
+    const entries = (bookings[key]||[]).map(b => {
       const dr = DRONES[b.drone]; if (!dr) return '';
-      return `<div class="booking" style="background:${dr.bg};color:${dr.fg}" onclick="event.stopPropagation();askDelete('${b.id}','${dr.label} · ${b.label}')"><div class="booking-dot" style="background:${dr.dot}"></div>${dr.label.split(' ')[0]} · ${b.label}</div>`;
+      return `<div class="booking" style="background:${dr.bg};color:${dr.fg}" onclick="event.stopPropagation();askDelete('${b.id}','${dr.label} · ${b.label}')"><div class="booking-dot" style="background:${dr.dot}"></div>${dr.short} · ${b.label}</div>`;
     }).join('');
     html += `<div class="day-cell${isToday?' today':''}${isPast?' past':''}" onclick="openModal('${key}','${label}')"><div class="dnum">${d.getDate()}</div>${entries}</div>`;
   }
@@ -227,61 +240,60 @@ function openModal(key, label) {
   document.getElementById('save-btn').disabled = true;
   resetPreview();
   document.getElementById('modal').classList.add('open');
-  setTimeout(() => document.getElementById('drone-sel').focus(), 50);
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
 function resetPreview() {
-  const p = document.getElementById('preview');
-  p.style.background = 'var(--bg)'; p.style.color = 'var(--text-faint)';
-  document.getElementById('preview-dot').style.display = 'none';
-  document.getElementById('preview-text').textContent = 'Vorschau erscheint hier';
+  const p=document.getElementById('preview');
+  p.style.background='var(--bg)'; p.style.color='var(--text-faint)';
+  document.getElementById('preview-dot').style.display='none';
+  document.getElementById('preview-text').textContent='Vorschau erscheint hier';
 }
 
 function updatePreview() {
-  const drone = document.getElementById('drone-sel').value;
-  const k = document.getElementById('kuerzel').value.trim();
-  const p = document.getElementById('preview'), dot = document.getElementById('preview-dot'), btn = document.getElementById('save-btn');
+  const drone=document.getElementById('drone-sel').value;
+  const k=document.getElementById('kuerzel').value.trim();
+  const p=document.getElementById('preview'), dot=document.getElementById('preview-dot'), btn=document.getElementById('save-btn');
   if (drone && k) {
-    const dr = DRONES[drone];
-    p.style.background = dr.bg; p.style.color = dr.fg;
-    dot.style.background = dr.dot; dot.style.display = 'block';
-    document.getElementById('preview-text').textContent = dr.label + ' · ' + k;
-    btn.disabled = false;
-  } else { resetPreview(); btn.disabled = true; }
+    const dr=DRONES[drone];
+    p.style.background=dr.bg; p.style.color=dr.fg;
+    dot.style.background=dr.dot; dot.style.display='block';
+    document.getElementById('preview-text').textContent = dr.short + ' · ' + k;
+    btn.disabled=false;
+  } else { resetPreview(); btn.disabled=true; }
 }
 
 async function saveBooking() {
-  const drone = document.getElementById('drone-sel').value;
-  const k = document.getElementById('kuerzel').value.trim();
-  if (!drone || !k) return;
-  document.getElementById('save-label').style.display = 'none';
-  document.getElementById('save-spin').style.display = 'block';
-  document.getElementById('save-btn').disabled = true;
+  const drone=document.getElementById('drone-sel').value;
+  const k=document.getElementById('kuerzel').value.trim();
+  if (!drone||!k) return;
+  document.getElementById('save-label').style.display='none';
+  document.getElementById('save-spin').style.display='block';
+  document.getElementById('save-btn').disabled=true;
   try {
-    await sbFetch('bookings', { method: 'POST', body: JSON.stringify({ date: selectedDate, drone, label: k }) });
+    await sbFetch('bookings',{method:'POST',body:JSON.stringify({date:selectedDate,drone,label:k})});
     closeModal(); await refreshCal();
   } catch(e) { alert('Fehler beim Speichern.'); }
-  document.getElementById('save-label').style.display = '';
-  document.getElementById('save-spin').style.display = 'none';
-  document.getElementById('save-btn').disabled = false;
+  document.getElementById('save-label').style.display='';
+  document.getElementById('save-spin').style.display='none';
+  document.getElementById('save-btn').disabled=false;
 }
 
 function askDelete(id, label) {
-  deleteId = id;
-  document.getElementById('del-text').textContent = '"' + label + '" löschen?';
+  deleteId=id;
+  document.getElementById('del-text').textContent='"'+label+'" löschen?';
   document.getElementById('del-modal').classList.add('open');
 }
-function closeDel() { document.getElementById('del-modal').classList.remove('open'); deleteId = null; }
+function closeDel() { document.getElementById('del-modal').classList.remove('open'); deleteId=null; }
 async function confirmDelete() {
   if (!deleteId) return;
-  try { await sbFetch('bookings?id=eq.' + deleteId, { method: 'DELETE' }); closeDel(); await refreshCal(); }
+  try { await sbFetch('bookings?id=eq.'+deleteId,{method:'DELETE'}); closeDel(); await refreshCal(); }
   catch(e) { alert('Fehler beim Löschen.'); }
 }
 
-document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
-document.getElementById('del-modal').addEventListener('click', e => { if (e.target === document.getElementById('del-modal')) closeDel(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeDel(); } });
+document.getElementById('modal').addEventListener('click', e=>{ if(e.target===document.getElementById('modal')) closeModal(); });
+document.getElementById('del-modal').addEventListener('click', e=>{ if(e.target===document.getElementById('del-modal')) closeDel(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){closeModal();closeDel();} });
 
 refreshCal();
 </script>
