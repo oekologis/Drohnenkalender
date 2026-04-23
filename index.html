@@ -9,12 +9,12 @@
     --mavic-bg: #E6F1FB;
     --mavic-fg: #0C447C;
     --mavic-dot: #378ADD;
-    --air-bg: #E1F5EE;
-    --air-fg: #085041;
-    --air-dot: #1D9E75;
-    --mini-bg: #FAECE7;
-    --mini-fg: #712B13;
-    --mini-dot: #D85A30;
+    --matrice-bg: #E1F5EE;
+    --matrice-fg: #085041;
+    --matrice-dot: #1D9E75;
+    --matrice2-bg: #FAECE7;
+    --matrice2-fg: #712B13;
+    --matrice2-dot: #D85A30;
     --bg: #f8f8f6;
     --surface: #ffffff;
     --border: rgba(0,0,0,0.1);
@@ -31,12 +31,12 @@
       --mavic-bg: #0C447C;
       --mavic-fg: #B5D4F4;
       --mavic-dot: #378ADD;
-      --air-bg: #085041;
-      --air-fg: #9FE1CB;
-      --air-dot: #1D9E75;
-      --mini-bg: #712B13;
-      --mini-fg: #F5C4B3;
-      --mini-dot: #D85A30;
+      --matrice-bg: #085041;
+      --matrice-fg: #9FE1CB;
+      --matrice-dot: #1D9E75;
+      --matrice2-bg: #712B13;
+      --matrice2-fg: #F5C4B3;
+      --matrice2-dot: #D85A30;
       --bg: #111110;
       --surface: #1c1c1a;
       --border: rgba(255,255,255,0.1);
@@ -361,9 +361,9 @@ create policy "public delete" on bookings
     </header>
 
     <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:var(--mavic-dot)"></div>Mavic 3</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--air-dot)"></div>Air 2S</div>
-      <div class="leg"><div class="leg-dot" style="background:var(--mini-dot)"></div>Mini 3</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--mavic-dot)"></div>Mavic 3T</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--matrice-dot)"></div>Matrice 4T</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--matrice2-dot)"></div>Matrice 4T Nr.2</div>
     </div>
 
     <div class="nav">
@@ -384,9 +384,9 @@ create policy "public delete" on bookings
       <label>Drohne</label>
       <select id="drone-sel" onchange="updatePreview()">
         <option value="">— auswählen —</option>
-        <option value="mavic">Mavic 3</option>
-        <option value="air">Air 2S</option>
-        <option value="mini">Mini 3</option>
+        <option value="mavic">Mavic 3T</option>
+        <option value="matrice">Matrice 4T</option>
+        <option value="matrice2">Matrice 4T Nr.2</option>
       </select>
     </div>
     <div class="field">
@@ -421,12 +421,13 @@ create policy "public delete" on bookings
 <script>
 const DRONES = {
   mavic: { label: 'Mavic 3', bg: 'var(--mavic-bg)', fg: 'var(--mavic-fg)', dot: 'var(--mavic-dot)' },
-  air:   { label: 'Air 2S',  bg: 'var(--air-bg)',   fg: 'var(--air-fg)',   dot: 'var(--air-dot)'   },
-  mini:  { label: 'Mini 3',  bg: 'var(--mini-bg)',  fg: 'var(--mini-fg)',  dot: 'var(--mini-dot)'  },
+  matrice:   { label: 'Matrice 4T',  bg: 'var(--matrice-bg)',   fg: 'var(--matrice-fg)',   dot: 'var(--matrice-dot)'   },
+  matrice2:  { label: 'Matrice 4T Nr.2',  bg: 'var(--matrice2-bg)',  fg: 'var(--matrice2-fg)',  dot: 'var(--matrice2-dot)'  },
 };
 
-let SUPABASE_URL = '', SUPABASE_KEY = '';
-let weekOffset = 0, selectedDate = null, bookings = {}, deleteId = null;
+let SUPABASE_URL = 'https://DEINE-URL.supabase.co';
+let SUPABASE_KEY = 'DEIN-ANON-KEY';
+  let weekOffset = 0, selectedDate = null, bookings = {}, deleteId = null;
 
 function loadConfig() {
   SUPABASE_URL = localStorage.getItem('sb_url') || '';
